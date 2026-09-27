@@ -1,0 +1,24 @@
+name: Rename promo file to index.html
+on:
+  push:
+    paths:
+      - '.github/workflows/rename.yml'
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename dj-adrenaline.html to index.html
+        run: |
+          if [ -f dj-adrenaline.html ]; then
+            mv dj-adrenaline.html index.html
+          fi
+      - name: Commit rename
+        run: |
+          git config user.name "djadrenaline44"
+          git config user.email "DJAdrenalineBookings@proton.me"
+          git add -A
+          git diff --staged --quiet || git commit -m "Rename dj-adrenaline.html to index.html"
+          git push
